@@ -16,6 +16,17 @@ app.get('/api/theories', (req, res) => {
 // Endpoint for AI interactions with data preprocessing
 app.post('/api/ai-interaction', (req, res) => {
   try {
+    // Validate request body
+    if (!req.body.data || !Array.isArray(req.body.data)) {
+      return res.status(400).json({ message: 'Invalid data format: data field must be an array.' });
+    }
+    if (typeof req.body.min !== 'number' || typeof req.body.max !== 'number') {
+      return res.status(400).json({ message: 'Invalid data format: min and max fields must be numbers.' });
+    }
+    if (req.body.categories && !Array.isArray(req.body.categories)) {
+      return res.status(400).json({ message: 'Invalid data format: categories field must be an array.' });
+    }
+
     // Preprocess the data
     const normalizedData = normalizeData(req.body.data, req.body.min, req.body.max);
     const oneHotEncodedData = oneHotEncodeData(req.body.data, req.body.categories);
