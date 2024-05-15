@@ -34,13 +34,6 @@ const DataCollectionForm = ({ selectedTheory }) => {
     fetchTheories();
   }, []); // Removed selectedTheory from dependency array to prevent re-fetching
 
-  // Debugging: Log the theories fetched and the selected theory's constructs
-  useEffect(() => {
-    console.log('Theories fetched:', theories);
-    const currentTheory = theories.find(theory => theory.id.toString() === selectedTheory);
-    console.log('Selected theory constructs:', currentTheory?.constructs);
-  }, [theories, selectedTheory]);
-
   const handleInputChange = (e, constructName) => {
     setFormData({ ...formData, [constructName]: e.target.value });
   };
