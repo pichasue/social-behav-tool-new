@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-socialbehavtoolnew-dev-2255f-authRole",
+      "UnauthRoleArn": "arn:aws:iam::094402548679:role/amplify-socialbehavtoolnew-dev-2255f-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::094402548679:role/amplify-socialbehavtoolnew-dev-2255f-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-socialbehavtoolnew-dev-2255f-deployment",
+      "UnauthRoleName": "amplify-socialbehavtoolnew-dev-2255f-unauthRole",
+      "StackName": "amplify-socialbehavtoolnew-dev-2255f",
+      "StackId": "arn:aws:cloudformation:us-east-1:094402548679:stack/amplify-socialbehavtoolnew-dev-2255f/c5ab8e50-126b-11ef-a744-0affca8a5059",
+      "AmplifyAppId": "d3lx4kfywxoa3p"
+    }
+  }
+}
