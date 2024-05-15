@@ -1,7 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const tf = require('@tensorflow/tfjs-node'); // Import TensorFlow.js
 const theories = require('./mockData');
 const { normalizeData, oneHotEncodeData, imputeMissingValues } = require('./data_preprocessing');
+const model = require('./predictive_model'); // Import the AI model
 const app = express();
 const port = process.env.PORT || 3001;
 
@@ -14,7 +16,7 @@ app.get('/api/theories', (req, res) => {
 });
 
 // Endpoint for AI interactions with data preprocessing
-app.post('/api/ai-interaction', (req, res) => {
+app.post('/api/ai-interaction', async (req, res) => {
   try {
     // Validate request body
     if (!req.body.data || !Array.isArray(req.body.data)) {
@@ -32,15 +34,36 @@ app.post('/api/ai-interaction', (req, res) => {
     const oneHotEncodedData = oneHotEncodeData(req.body.data, req.body.categories);
     const imputedData = imputeMissingValues(req.body.data);
 
-    // TODO: Replace with actual AI model interaction logic using preprocessed data
+    // Prepare data for prediction
+    const inputData = tf.tensor2d([imputedData]); // Convert to 2D tensor
+
+    // Make prediction using the AI model
+    const prediction = await model.predict(inputData).data();
+
+    // Respond with the prediction result
     res.json({
       message: 'AI Interaction endpoint hit with preprocessed data',
       normalizedData: normalizedData,
       oneHotEncodedData: oneHotEncodedData,
-      imputedData: imputedData
+      imputedData: imputedData,
+      prediction: prediction // Include the prediction in the response
     });
   } catch (error) {
     res.status(500).json({ message: 'Error processing data', error: error.message });
+  }
+});
+
+// Endpoint for data collection form submissions
+app.post('/api/data', (req, res) => {
+  try {
+    // Here you would handle the incoming form data, validate it, and perform necessary actions
+    // For now, we'll just echo the data back to the client
+    res.json({
+      message: 'Data received successfully',
+      data: req.body
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Error handling form data', error: error.message });
   }
 });
 

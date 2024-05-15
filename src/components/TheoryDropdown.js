@@ -7,7 +7,8 @@ const TheoryDropdown = ({ onSelectTheory }) => {
   useEffect(() => {
     const fetchTheories = async () => {
       try {
-        const response = await fetch('/api/theories');
+        // Updated to include the backend server's port number
+        const response = await fetch('http://localhost:3001/api/theories');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
