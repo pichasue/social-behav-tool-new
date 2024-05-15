@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { ChakraProvider, Box, VStack, Grid, theme } from '@chakra-ui/react';
+import TheoryDropdown from './components/TheoryDropdown';
+import DataCollectionForm from './components/DataCollectionForm';
+import VisualizationComponent from './components/VisualizationComponent';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChakraProvider theme={theme}>
+      <Box textAlign="center" fontSize="xl">
+        <Grid minH="100vh" p={3}>
+          <VStack spacing={8}>
+            <Box>
+              <TheoryDropdown />
+            </Box>
+            <Box>
+              <DataCollectionForm />
+            </Box>
+            <Box>
+              <VisualizationComponent />
+            </Box>
+            {/* Placeholder for Community Portal Section */}
+            <Box>
+              <p>Community Portal Section will go here</p>
+            </Box>
+          </VStack>
+        </Grid>
+      </Box>
+    </ChakraProvider>
   );
 }
 
