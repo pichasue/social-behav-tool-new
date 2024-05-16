@@ -45,12 +45,10 @@ This document outlines the structure and functionality of the Social Behavior Me
 ### GitHub Pages
 - The frontend can also be deployed to GitHub Pages. Ensure the `gh-pages` branch is up-to-date with the build directory containing the static files.
 - The GitHub Pages site is configured to serve the site from the `gh-pages` branch.
-- Recent attempts to deploy to GitHub Pages have encountered authentication issues, which are currently being resolved.
 
 ### Deployment Process
 - The frontend is built locally and deployed to AWS Amplify and GitHub Pages.
 - The backend server is deployed separately and configured to communicate with the frontend.
-- A new GitHub token has been requested to resolve the authentication issues for GitHub Pages deployment.
 
 ## Credentials and Configuration
 - AWS credentials are provided by the user and configured in the AWS CLI.
@@ -59,7 +57,6 @@ This document outlines the structure and functionality of the Social Behavior Me
 
 ## Future Development
 - Data Visualization and Community Portal sections are in development to enhance user interaction and display AI-generated insights.
-- Further integration of AI functionalities, including predictive analytics and NLP, is planned.
 
 ## Maintenance and Troubleshooting
 - Regular updates and commits to the version control system are recommended to maintain the application's functionality.
