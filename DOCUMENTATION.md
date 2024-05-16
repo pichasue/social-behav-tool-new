@@ -42,20 +42,26 @@ This document outlines the structure and functionality of the Social Behavior Me
 - The application is deployed using AWS Amplify with the default region set to `us-east-1`.
 - The Amplify appId is `d3lx4kfywxoa3p` and is accessible at `d3lx4kfywxoa3p.amplifyapp.com`.
 
+### GitHub Pages
+- The frontend can also be deployed to GitHub Pages. Ensure the `gh-pages` branch is up-to-date with the build directory containing the static files.
+- The GitHub Pages site is configured to serve the site from the `gh-pages` branch.
+
 ### Deployment Process
-- The frontend is built locally and deployed to AWS Amplify.
+- The frontend is built locally and deployed to AWS Amplify and GitHub Pages.
 - The backend server is deployed separately and configured to communicate with the frontend.
 
 ## Credentials and Configuration
 - AWS credentials are provided by the user and configured in the AWS CLI.
+- GitHub token is required for GitHub Pages deployment and should be securely stored and configured.
 - CORS settings are configured to allow communication between the frontend and backend.
 
 ## Future Development
-- Data Visualization and Community Portal sections are planned for future implementation to enhance user interaction and display AI-generated insights.
+- Data Visualization and Community Portal sections are in development to enhance user interaction and display AI-generated insights.
 
 ## Maintenance and Troubleshooting
 - Regular updates and commits to the version control system are recommended to maintain the application's functionality.
 - For troubleshooting, refer to the console logs and network activity in the browser's developer tools.
+- Specific troubleshooting guides and contact details for the development team or project maintainer can be found in the project's wiki.
 
 ## Contact
-- For further assistance or inquiries, please contact the development team or the project maintainer.
+- For further assistance or inquiries, please contact the development team or the project maintainer through the project's GitHub issues or the provided contact details in the project's wiki.
