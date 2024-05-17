@@ -4,7 +4,7 @@
 /**
  * Normalizes the input data to be in a consistent format for the model.
  * @param {Object} data - The input data to be preprocessed.
- * @returns {Object} - The normalized data.
+ * @returns {Array} - The normalized data as an array.
  */
 function preprocessData(data) {
   // Normalize the data here. This is a placeholder function and should be
@@ -14,15 +14,28 @@ function preprocessData(data) {
   // As a simple example, we'll assume all input values should be scaled
   // between 0 and 1. This should be customized based on actual data.
 
-  const normalizedData = {};
-  for (const key in data) {
-    if (data.hasOwnProperty(key)) {
-      // Replace this with actual normalization logic
-      normalizedData[key] = data[key] / 100; // Example normalization
+  // Assuming 'data' is an array of objects with 'value', 'min', and 'max' properties
+  const normalizedData = data.map(item => {
+    // Check if 'value', 'min', and 'max' properties exist and are numbers
+    if (typeof item.value !== 'number' || typeof item.min !== 'number' || typeof item.max !== 'number') {
+      throw new Error('Data object is missing required numeric properties: value, min, and max');
     }
+    // Replace this with actual normalization logic
+    // Example normalization: scale 'value' to be between 0 and 1 based on 'min' and 'max'
+    return (item.value - item.min) / (item.max - item.min);
+  });
+
+  // Pad the array with zeros if necessary to ensure it has 10 elements
+  while (normalizedData.length < 10) {
+    normalizedData.push(0);
+  }
+
+  // Ensure the array does not exceed 10 elements
+  if (normalizedData.length > 10) {
+    throw new Error('Normalized data exceeds the expected input size of 10 elements');
   }
 
   return normalizedData;
 }
 
-export { preprocessData };
+module.exports = { preprocessData };
