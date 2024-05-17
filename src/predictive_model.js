@@ -1,22 +1,31 @@
-import * as tf from '@tensorflow/tfjs';
+const tf = require('@tensorflow/tfjs-node');
+const fs = require('fs').promises;
 
-// A simple model for demonstration purposes
-const model = tf.sequential();
+// Load the actual trained TensorFlow.js model from the file system
+// The path is assumed to be where the trained model is saved
+const modelPath = '/home/ubuntu/social-behav-tool-new/model/';
+let model;
 
-// Add an input layer
-model.add(tf.layers.dense({ units: 1, inputShape: [10] }));
+async function loadModel() {
+  try {
+    // Check if the model directory exists before attempting to load it
+    await fs.access(modelPath);
+    // Load the Universal Sentence Encoder model
+    model = await tf.loadGraphModel(`file://${modelPath}saved_model.pb`);
+    console.log('Model loaded successfully');
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      console.error('Model directory not found:', modelPath);
+    } else {
+      console.error('Error loading the model:', error);
+    }
+  }
+}
 
-// Add one hidden layer
-model.add(tf.layers.dense({ units: 10, activation: 'relu' }));
+// Call loadModel to load the model when this module is required
+loadModel();
 
-// Add an output layer
-model.add(tf.layers.dense({ units: 1, activation: 'sigmoid' }));
-
-// Compile the model with an optimizer and loss function for training
-model.compile({
-  optimizer: 'adam',
-  loss: 'binaryCrossentropy',
-  metrics: ['accuracy'],
-});
-
-export default model;
+module.exports = {
+  getModel: () => model,
+  loadModel // Export loadModel to allow manual reloading if necessary
+};
