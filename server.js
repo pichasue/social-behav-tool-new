@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const tf = require('@tensorflow/tfjs-node'); // Import TensorFlow.js for Node.js
 const cors = require('cors'); // Import CORS package
-const { preprocessData } = require('./src/data_preprocessing'); // Import the preprocessData function
 const { getModel, loadModel } = require('./src/predictive_model'); // Import the getModel function and loadModel function
 
 // Create a new instance of express
@@ -25,8 +24,8 @@ const theories = [
 ];
 
 // AI model inference
-async function performInference(preprocessedData) {
-    console.log('Performing inference on data:', preprocessedData);
+async function performInference(inputs1, inputs, inputs2) {
+    console.log('Performing inference with input tensors');
     // Retrieve the loaded model using the getModel function
     const model = getModel();
     // Check if the model is loaded before attempting to perform inference
@@ -34,13 +33,20 @@ async function performInference(preprocessedData) {
         console.error('AI model is not loaded.');
         throw new Error('AI model is not loaded.');
     }
-    // Convert the preprocessed data to a tensor with the correct shape
-    // The model expects an input shape of [null, 10], so we create a tensor directly from preprocessedData
-    const inputData = tf.tensor2d([preprocessedData], [1, 10]);
-    // Perform inference
-    const predictions = await model.predict(inputData).data();
-    // Convert tensor to array to send back to client
-    return predictions;
+    // Perform inference using the executeAsync method
+    const predictions = await model.executeAsync({
+        inputs_1: tf.tensor2d(inputs1, [1, 128]),
+        inputs: tf.tensor2d(inputs, [1, 128]),
+        inputs_2: tf.tensor2d(inputs2, [1, 128])
+    });
+    // Check if predictions is an array of tensors
+    if (Array.isArray(predictions)) {
+        // Convert each tensor in the array to an array
+        return predictions.map(tensor => tensor.arraySync());
+    } else {
+        // Convert tensor to array to send back to client
+        return predictions.arraySync();
+    }
 }
 
 // Define a GET endpoint for fetching theories
@@ -56,29 +62,27 @@ app.post('/api/data', (req, res) => {
 
 // Define a POST endpoint for AI interaction
 app.post('/api/ai-interaction', async (req, res) => {
-    const data = req.body.data;
-    console.log('Received data for AI interaction:', data);
+    const { inputs_1, inputs, inputs_2 } = req.body;
+    console.log('Received data for AI interaction:', req.body);
 
-    // Check if data is undefined or not an array
-    if (!data || !Array.isArray(data)) {
-        return res.status(400).json({ error: "Invalid data format: Data should be an array of objects." });
+    // Validate the input tensors
+    if (!inputs_1 || !inputs || !inputs_2) {
+        return res.status(400).json({ error: "Invalid data format: Expected 'inputs_1', 'inputs', and 'inputs_2'." });
     }
 
-    // Validate that each data point has 'value', 'min', and 'max' as numbers
-    const isValidData = data.every(d => typeof d.value === 'number' && typeof d.min === 'number' && typeof d.max === 'number');
-    console.log('Is valid data:', isValidData);
-
-    if (!isValidData) {
-        return res.status(400).json({ error: "Invalid data format: 'value', 'min', and 'max' fields must be numbers." });
+    // Additional validation to ensure each input tensor is an array of arrays with the correct shape
+    if (!Array.isArray(inputs_1) || !Array.isArray(inputs_1[0]) || inputs_1[0].length !== 128) {
+        return res.status(400).json({ error: "Invalid data format for 'inputs_1': Expected an array of arrays with 128 elements each." });
+    }
+    if (!Array.isArray(inputs) || !Array.isArray(inputs[0]) || inputs[0].length !== 128) {
+        return res.status(400).json({ error: "Invalid data format for 'inputs': Expected an array of arrays with 128 elements each." });
+    }
+    if (!Array.isArray(inputs_2) || !Array.isArray(inputs_2[0]) || inputs_2[0].length !== 128) {
+        return res.status(400).json({ error: "Invalid data format for 'inputs_2': Expected an array of arrays with 128 elements each." });
     }
 
     try {
-        const preprocessedData = preprocessData(data);
-        // Ensure the preprocessed data has exactly 10 elements
-        if (preprocessedData.length !== 10) {
-            throw new Error('Preprocessed data does not match the expected input size for the model.');
-        }
-        const aiResponse = await performInference(preprocessedData);
+        const aiResponse = await performInference(inputs_1, inputs, inputs_2);
         res.json({ results: aiResponse });
     } catch (error) {
         console.error('Error during AI interaction:', error.message);
