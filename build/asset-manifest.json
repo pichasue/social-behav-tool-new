@@ -1,9 +1,9 @@
 {
   "files": {
-    "main.css": "/social-behav-tool-new/static/css/main.31d6cfe0.css",
-    "main.js": "/social-behav-tool-new/static/js/main.c0fcf6b7.js",
-    "index.html": "/social-behav-tool-new/index.html",
-    "main.c0fcf6b7.js.map": "/social-behav-tool-new/static/js/main.c0fcf6b7.js.map"
+    "main.css": "/static/css/main.31d6cfe0.css",
+    "main.js": "/static/js/main.c0fcf6b7.js",
+    "index.html": "/index.html",
+    "main.c0fcf6b7.js.map": "/static/js/main.c0fcf6b7.js.map"
   },
   "entrypoints": [
     "static/css/main.31d6cfe0.css",
