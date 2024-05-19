@@ -1,0 +1,1 @@
+const fs = require("fs"); const createArray = (length) => Array.from({ length }, (_, i) => i + 1); const payload = { inputs_1: [createArray(128)], inputs: [createArray(128)], inputs_2: [createArray(128)] }; fs.writeFileSync("valid_payload.json", JSON.stringify(payload, null, 2));
