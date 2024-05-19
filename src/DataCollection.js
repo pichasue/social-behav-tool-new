@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -8,6 +8,7 @@ import {
   VStack,
   Textarea,
   Heading,
+  useToast,
 } from '@chakra-ui/react';
 
 const DataCollection = () => {
@@ -16,6 +17,31 @@ const DataCollection = () => {
     context: '',
     notes: '',
   });
+  const [theories, setTheories] = useState([]);
+  const toast = useToast();
+
+  useEffect(() => {
+    fetch('/api/theories')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setTheories(data);
+      })
+      .catch((error) => {
+        toast({
+          title: 'An error occurred.',
+          description: "Unable to fetch theories data.",
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
+        console.error('There was an error fetching the theories data:', error);
+      });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
