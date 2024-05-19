@@ -44,7 +44,17 @@ The tool consists of a React frontend utilizing Chakra UI for a responsive and a
 ### `/api/ai-interaction`
 - This endpoint accepts POST requests with input data for the AI model and returns predictions.
 
-## 7. Troubleshooting and FAQs
+## 7. Deployment to Netlify
+### Deploying the Application
+- To deploy the application to Netlify, ensure that the production build is up to date by running `npm run build`.
+- Use the `deploy_netlify` command followed by the build directory to deploy the application to Netlify.
+- Note the Netlify site token returned by the `deploy_netlify` command, as it is required for future updates to the site.
+
+### Updating the Application on Netlify
+- To update the application on Netlify, use the Netlify site token obtained during the initial deployment.
+- Run the `deploy_netlify` command with the updated build directory and include the Netlify site token to update the existing deployment.
+
+## 8. Troubleshooting and FAQs
 ### Common Issues and Their Resolutions
 - **Issue**: Model fails to load.
   **Resolution**: Ensure the `model.json` file and associated weights are correctly placed in the `web_model` directory and that the server has read permissions for these files.
@@ -56,14 +66,14 @@ The tool consists of a React frontend utilizing Chakra UI for a responsive and a
 ### Contact Information for Further Assistance
 - For further assistance, please reach out to the project maintainer at [social.behav.tool.support@example.com](mailto:social.behav.tool.support@example.com).
 
-## 8. Contact and Support
+## 9. Contact and Support
 ### Reporting Issues or Contributing
 - To report issues or contribute to the project, please visit the project's GitHub repository at [https://github.com/social-behav-tool/social-behav-tool](https://github.com/social-behav-tool/social-behav-tool) and open an issue or pull request.
 
 ### Acknowledgments and Contact Details
 - We would like to thank all the contributors who have helped in developing this tool. For any inquiries or further information, please contact the project team at [social.behav.tool.team@example.com](mailto:social.behav.tool.team@example.com).
 
-## 9. Model Training and Updating
+## 10. Model Training and Updating
 ### Training the Model
 - To train the model, use the provided training scripts located in the `training` directory. Follow the instructions in the `TRAINING.md` file for setting up the training environment and executing the training process.
 
