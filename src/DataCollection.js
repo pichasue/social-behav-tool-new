@@ -21,7 +21,7 @@ const DataCollection = () => {
   const toast = useToast();
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/theories')
+    fetch('http://localhost:3001/api/theories') // Fetching from local backend server
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
