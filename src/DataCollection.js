@@ -21,7 +21,7 @@ const DataCollection = () => {
   const toast = useToast();
 
   useEffect(() => {
-    fetch('/api/theories')
+    fetch('http://localhost:3001/api/theories')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -41,6 +41,7 @@ const DataCollection = () => {
         });
         console.error('There was an error fetching the theories data:', error);
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = (e) => {
