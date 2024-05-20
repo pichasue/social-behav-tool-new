@@ -23,6 +23,31 @@ const theories = [
   // ... other theories
 ];
 
+// Mock data for processed tweets
+const processedTweets = [
+  {
+    id: 1,
+    user: "User1",
+    content: "Tweet content 1",
+    datePosted: "2023-05-10T12:00:00Z",
+    analysisResults: {
+      sentiment: "Positive",
+      relevance: "High"
+    }
+  },
+  {
+    id: 2,
+    user: "User2",
+    content: "Tweet content 2",
+    datePosted: "2023-05-11T15:30:00Z",
+    analysisResults: {
+      sentiment: "Negative",
+      relevance: "Medium"
+    }
+  },
+  // Additional mock tweets can be added here
+];
+
 // AI model inference
 async function performInference(inputs1, inputs, inputs2) {
     console.log('Performing inference with input tensors');
@@ -52,6 +77,11 @@ async function performInference(inputs1, inputs, inputs2) {
 // Define a GET endpoint for fetching theories
 app.get('/api/theories', (req, res) => {
     res.json(theories);
+});
+
+// Define a GET endpoint for fetching processed tweets
+app.get('/api/processed-tweets', (req, res) => {
+    res.json(processedTweets);
 });
 
 // Define a POST endpoint for submitting data
