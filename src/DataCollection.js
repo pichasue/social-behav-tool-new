@@ -24,7 +24,9 @@ const DataCollection = () => {
 
   useEffect(() => {
     // Fetching from the production backend server
-    fetch('/api/theories') // Removed the localhost URL
+    // Update to use environment variable for backend URL
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
+    fetch(`${backendUrl}/api/theories`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
