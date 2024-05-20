@@ -9,6 +9,7 @@ import {
   Textarea,
   Heading,
   useToast,
+  Select,
 } from '@chakra-ui/react';
 
 const DataCollection = () => {
@@ -16,12 +17,14 @@ const DataCollection = () => {
     behavior: '',
     context: '',
     notes: '',
+    theory: '',
   });
   const [theories, setTheories] = useState([]);
   const toast = useToast();
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/theories') // Fetching from local backend server
+    // Fetching from the production backend server
+    fetch('/api/theories') // Removed the localhost URL
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -84,6 +87,22 @@ const DataCollection = () => {
               onChange={handleChange}
               placeholder="Describe the context"
             />
+          </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="theory">Theory</FormLabel>
+            <Select
+              id="theory"
+              name="theory"
+              value={formData.theory}
+              onChange={handleChange}
+              placeholder="Select a theory"
+            >
+              {theories.map((theory) => (
+                <option key={theory.id} value={theory.name}>
+                  {theory.name}
+                </option>
+              ))}
+            </Select>
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="notes">Additional Notes</FormLabel>
