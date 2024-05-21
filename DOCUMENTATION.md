@@ -30,21 +30,27 @@ The tool consists of a React frontend utilizing Chakra UI for a responsive and a
 ### Backend Structure and Key Files
 - Key backend files include `server.js` for server configuration, `predictive_model.js` for AI model integration, and `data_preprocessing.js` for data preprocessing functions.
 
-## 5. TensorFlow.js Model Integration
+## 5. Environment Configuration
+### Using the `.env.example` File
+- The project includes a `.env.example` file which contains placeholder values for all the necessary environment variables.
+- Copy the `.env.example` file to a new file named `.env` and replace the placeholder values with your specific configuration details.
+- Ensure that the `.env` file is never committed to public repositories to maintain the security of your sensitive information.
+
+## 6. TensorFlow.js Model Integration
 ### Model Loading and Inference
 - The AI model is loaded using the `loadModel` function in `predictive_model.js`. The model performs inference based on input data received from API requests.
 
 ### Integration with Server Endpoints
 - The model is integrated with the `/api/ai-interaction` endpoint, which handles POST requests for AI model predictions.
 
-## 6. API Endpoints and Interaction
+## 7. API Endpoints and Interaction
 ### `/api/theories`
 - This endpoint provides a mock dataset of social behavior change theories and constructs.
 
 ### `/api/ai-interaction`
 - This endpoint accepts POST requests with input data for the AI model and returns predictions.
 
-## 7. Deployment to Netlify
+## 8. Deployment to Netlify
 ### Deploying the Application
 - To deploy the application to Netlify, ensure that the production build is up to date by running `npm run build`.
 - Use the `deploy_netlify` command followed by the build directory to deploy the application to Netlify.
@@ -54,7 +60,7 @@ The tool consists of a React frontend utilizing Chakra UI for a responsive and a
 - To update the application on Netlify, use the Netlify site token obtained during the initial deployment.
 - Run the `deploy_netlify` command with the updated build directory and include the Netlify site token to update the existing deployment.
 
-## 8. Troubleshooting and FAQs
+## 9. Troubleshooting and FAQs
 ### Common Issues and Their Resolutions
 - **Issue**: Model fails to load.
   **Resolution**: Ensure the `model.json` file and associated weights are correctly placed in the `web_model` directory and that the server has read permissions for these files.
@@ -66,14 +72,14 @@ The tool consists of a React frontend utilizing Chakra UI for a responsive and a
 ### Contact Information for Further Assistance
 - For further assistance, please reach out to the project maintainer at [social.behav.tool.support@example.com](mailto:social.behav.tool.support@example.com).
 
-## 9. Contact and Support
+## 10. Contact and Support
 ### Reporting Issues or Contributing
 - To report issues or contribute to the project, please visit the project's GitHub repository at [https://github.com/social-behav-tool/social-behav-tool](https://github.com/social-behav-tool/social-behav-tool) and open an issue or pull request.
 
 ### Acknowledgments and Contact Details
 - We would like to thank all the contributors who have helped in developing this tool. For any inquiries or further information, please contact the project team at [social.behav.tool.team@example.com](mailto:social.behav.tool.team@example.com).
 
-## 10. Model Training and Updating
+## 11. Model Training and Updating
 ### Training the Model
 - To train the model, use the provided training scripts located in the `training` directory. Follow the instructions in the `TRAINING.md` file for setting up the training environment and executing the training process.
 
