@@ -53,6 +53,13 @@ npm run server
 npm start
 ```
 
+### Running Tests
+To ensure the application's features are working as expected, you can run the test suite with the following command:
+```
+npm test
+```
+This will execute all the tests defined in the `test` directory and provide a report on any tests that pass or fail.
+
 ## Deployment
 
 ### Building for Production
