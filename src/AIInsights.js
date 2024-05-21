@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Heading, Text } from '@chakra-ui/react';
 
+// AIInsights component displays predictive analytics and recommendations based on AI models
 const AIInsights = () => {
   // Placeholder data for AI insights
   const insightsData = {
@@ -14,12 +15,14 @@ const AIInsights = () => {
       <Heading as="h2" size="lg" mb={5}>
         AI Insights
       </Heading>
+      {/* Display the AI prediction and its confidence level */}
       <Text fontSize="xl" mb={3}>
         {insightsData.prediction}
       </Text>
       <Text mb={3}>
         Confidence: {insightsData.confidence}
       </Text>
+      {/* Display recommendations based on the AI insights */}
       <Text>
         {insightsData.recommendations}
       </Text>
