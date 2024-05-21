@@ -32,9 +32,10 @@ The tool consists of a React frontend utilizing Chakra UI for a responsive and a
 
 ## 5. Environment Configuration
 ### Using the `.env.example` File
-- The project includes a `.env.example` file which contains placeholder values for all the necessary environment variables.
-- Copy the `.env.example` file to a new file named `.env` and replace the placeholder values with your specific configuration details.
-- Ensure that the `.env` file is never committed to public repositories to maintain the security of your sensitive information.
+- The project includes a `.env.example` file which serves as a template for the necessary environment variables required for both development and production environments.
+- To set up your environment variables, copy the `.env.example` file to a new file named `.env` in the root of the project directory.
+- Replace the placeholder values in the `.env` file with your actual configuration details specific to your development and production setups.
+- It is crucial to ensure that the `.env` file is included in your `.gitignore` file to prevent committing sensitive information to public repositories. This step is essential for maintaining the security of your deployment.
 
 ## 6. TensorFlow.js Model Integration
 ### Model Loading and Inference
@@ -51,14 +52,16 @@ The tool consists of a React frontend utilizing Chakra UI for a responsive and a
 - This endpoint accepts POST requests with input data for the AI model and returns predictions.
 
 ## 8. Deployment to Netlify
-### Deploying the Application
-- To deploy the application to Netlify, ensure that the production build is up to date by running `npm run build`.
-- Use the `deploy_netlify` command followed by the build directory to deploy the application to Netlify.
-- Note the Netlify site token returned by the `deploy_netlify` command, as it is required for future updates to the site.
+### Installing the Netlify CLI
+- If you do not have the Netlify CLI installed, you can install it by running `npm install netlify-cli -g` in your terminal. This will install the CLI globally on your system, allowing you to access it from any directory.
 
-### Updating the Application on Netlify
-- To update the application on Netlify, use the Netlify site token obtained during the initial deployment.
-- Run the `deploy_netlify` command with the updated build directory and include the Netlify site token to update the existing deployment.
+### Deploying the Application
+- To deploy the application to Netlify, first ensure that you have the Netlify CLI installed and that you are logged in to your Netlify account.
+- Update the production build by running `npm run build`, which will create a `build` directory with the production-ready files.
+- Before deploying, set the necessary environment variables on Netlify. This can be done through the Netlify UI under 'Site settings' > 'Build & deploy' > 'Environment', or via the CLI using the `netlify env:set KEY VALUE` command for each variable.
+- Log into Netlify via the CLI using the `netlify login` command, which will open a browser window to authenticate your Netlify account.
+- Deploy the application by running `netlify deploy --prod` from the root of the project directory, and follow the prompts to specify the `build` directory for deployment.
+- After deployment, a unique site ID will be provided by Netlify. This ID is crucial for future updates and should be noted. To update the site, use the `netlify deploy --site YOUR_SITE_ID --auth YOUR_NETLIFY_AUTH_TOKEN --prod` command, replacing `YOUR_SITE_ID` with your actual site ID and `YOUR_NETLIFY_AUTH_TOKEN` with your Netlify authentication token.
 
 ## 9. Troubleshooting and FAQs
 ### Common Issues and Their Resolutions
