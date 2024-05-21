@@ -12,6 +12,7 @@ import {
   Select,
 } from '@chakra-ui/react';
 
+// DataCollection component for users to input and submit data related to social behavior change
 const DataCollection = () => {
   const [formData, setFormData] = useState({
     behavior: '',
@@ -19,12 +20,11 @@ const DataCollection = () => {
     notes: '',
     theory: '',
   });
-  const [theories, setTheories] = useState([]);
+  const [theories, setTheories] = useState([]); // State to store the list of theories
   const toast = useToast();
 
   useEffect(() => {
-    // Fetching from the production backend server
-    // Update to use environment variable for backend URL
+    // Fetch the list of theories from the backend when the component mounts
     const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
     fetch(`${backendUrl}/api/theories`)
       .then((response) => {
@@ -34,7 +34,7 @@ const DataCollection = () => {
         return response.json();
       })
       .then((data) => {
-        setTheories(data);
+        setTheories(data); // Update state with the fetched theories data
       })
       .catch((error) => {
         toast({
@@ -53,14 +53,14 @@ const DataCollection = () => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      [name]: value, // Update form data for the given field
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would usually send the data to the server or another service
-    console.log(formData);
+    // Submit the form data to the backend or another service
+    console.log(formData); // Logging the form data to the console (for demonstration purposes)
   };
 
   return (
