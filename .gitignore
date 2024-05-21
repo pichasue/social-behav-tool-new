@@ -6,3 +6,4 @@ node_modules/
 
 # Model directory
 model/
+.env
