@@ -29,10 +29,10 @@ This project is a web and mobile application designed to measure and analyze soc
    ```
 
 ### Environment Setup
-To set up your environment variables:
-1. Create a `.env` file in the root of the project.
-2. Copy the contents of the `.env.example` file into your `.env` file.
-3. Replace the placeholder values with your actual database and backend server details.
+To set up your environment variables securely:
+1. Copy the `.env.example` file to a new file named `.env` in the root of the project.
+2. Replace the placeholder values in the `.env` file with your actual configuration details.
+3. Ensure that the `.env` file is included in your `.gitignore` to prevent committing sensitive information to public repositories.
 
 ## Running the Application
 

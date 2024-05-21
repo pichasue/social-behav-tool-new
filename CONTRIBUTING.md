@@ -16,6 +16,14 @@ If you find a bug or have a suggestion for improving the application, please fir
 4. Make sure your code lints.
 5. Issue that pull request!
 
+### Environment Setup for Contributions
+
+Before contributing to the project, you need to set up your environment variables securely:
+
+1. Copy the `.env.example` file to a new file named `.env` in the root of the project.
+2. Replace the placeholder values in the `.env` file with your actual configuration details.
+3. Ensure that the `.env` file is included in your `.gitignore` to prevent committing sensitive information to public repositories.
+
 ### Coding Standards
 
 - Write clean, maintainable code and follow the existing coding conventions.
