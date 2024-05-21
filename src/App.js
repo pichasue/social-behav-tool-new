@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChakraProvider, Box, VStack, Link, extendTheme } from '@chakra-ui/react';
+import { ChakraProvider, Box, HStack, Button, extendTheme } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route, Link as RouterLink } from 'react-router-dom';
 import HomePage from './HomePage';
 import DataCollection from './DataCollection';
@@ -30,12 +30,12 @@ function App() {
     <ChakraProvider theme={theme}>
       <Router>
         <Box p={4}>
-          <VStack spacing={4} align='stretch'>
-            <Link as={RouterLink} to="/">Home</Link>
-            <Link as={RouterLink} to="/data-collection">Data Collection</Link>
-            <Link as={RouterLink} to="/analysis-results">Analysis Results</Link>
-            <Link as={RouterLink} to="/ai-insights">AI Insights</Link>
-          </VStack>
+          <HStack spacing={4} align='center' justify='center'>
+            <Button as={RouterLink} to="/" colorScheme="teal" variant="solid">Home</Button>
+            <Button as={RouterLink} to="/data-collection" colorScheme="teal" variant="solid">Data Collection</Button>
+            <Button as={RouterLink} to="/analysis-results" colorScheme="teal" variant="solid">Analysis Results</Button>
+            <Button as={RouterLink} to="/ai-insights" colorScheme="teal" variant="solid">AI Insights</Button>
+          </HStack>
         </Box>
         <Routes>
           <Route exact path="/" element={<HomePage />} />

@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const tf = require('@tensorflow/tfjs-node'); // Import TensorFlow.js for Node.js
 const cors = require('cors'); // Import CORS package
 const { getModel, loadModel } = require('./src/predictive_model'); // Import the getModel function and loadModel function
+const { Pool } = require('pg'); // Import the Pool class from the pg module
+require('dotenv').config();
 
 // Create a new instance of express
 const app = express();
@@ -13,40 +15,10 @@ app.use(bodyParser.json());
 // Enable all CORS requests
 app.use(cors());
 
-// Mock data for theories and constructs
-const theories = [
-  {
-    id: 1,
-    name: 'Theory of Planned Behavior',
-    constructs: ['Attitude', 'Subjective Norm', 'Perceived Behavioral Control']
-  },
-  // ... other theories
-];
-
-// Mock data for processed tweets
-const processedTweets = [
-  {
-    id: 1,
-    user: "User1",
-    content: "Tweet content 1",
-    datePosted: "2023-05-10T12:00:00Z",
-    analysisResults: {
-      sentiment: "Positive",
-      relevance: "High"
-    }
-  },
-  {
-    id: 2,
-    user: "User2",
-    content: "Tweet content 2",
-    datePosted: "2023-05-11T15:30:00Z",
-    analysisResults: {
-      sentiment: "Negative",
-      relevance: "Medium"
-    }
-  },
-  // Additional mock tweets can be added here
-];
+// Initialize the Pool with the database connection string
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
 
 // AI model inference
 async function performInference(inputs1, inputs, inputs2) {
@@ -75,13 +47,25 @@ async function performInference(inputs1, inputs, inputs2) {
 }
 
 // Define a GET endpoint for fetching theories
-app.get('/api/theories', (req, res) => {
-    res.json(theories);
+app.get('/api/theories', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM theories');
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error fetching theories:', error);
+        res.status(500).json({ error: 'Error fetching theories' });
+    }
 });
 
 // Define a GET endpoint for fetching processed tweets
-app.get('/api/processed-tweets', (req, res) => {
-    res.json(processedTweets);
+app.get('/api/processed-tweets', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM processed_tweets');
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error fetching processed tweets:', error);
+        res.status(500).json({ error: 'Error fetching processed tweets' });
+    }
 });
 
 // Define a POST endpoint for submitting data
