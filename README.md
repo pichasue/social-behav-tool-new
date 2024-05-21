@@ -29,17 +29,10 @@ This project is a web and mobile application designed to measure and analyze soc
    ```
 
 ### Environment Setup
-Create a `.env` file in the root of the project with the following structure:
-```
-REACT_APP_BACKEND_URL=<backend_url>
-DB_HOST=<database_host>
-DB_PORT=<database_port>
-DB_NAME=<database_name>
-DB_USER=<database_user>
-DB_PASS=<database_password>
-DATABASE_URL=<full_database_url>
-```
-Replace `<backend_url>`, `<database_host>`, `<database_port>`, `<database_name>`, `<database_user>`, `<database_password>`, and `<full_database_url>` with your actual database and backend server details.
+To set up your environment variables:
+1. Create a `.env` file in the root of the project.
+2. Copy the contents of the `.env.example` file into your `.env` file.
+3. Replace the placeholder values with your actual database and backend server details.
 
 ## Running the Application
 
