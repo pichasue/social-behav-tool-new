@@ -19,8 +19,10 @@ const DataCollection = () => {
     context: '',
     notes: '',
     theory: '',
+    constructs: {}, // Add a new state to hold constructs values
   });
   const [theories, setTheories] = useState([]); // State to store the list of theories
+  const [constructs, setConstructs] = useState([]); // State to store the list of constructs for the selected theory
   const toast = useToast();
 
   useEffect(() => {
@@ -51,10 +53,47 @@ const DataCollection = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value, // Update form data for the given field
-    }));
+    if (name === 'theory') {
+      // Fetch constructs for the selected theory
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/theories/${value}/constructs`)
+        .then((response) => response.json())
+        .then((data) => {
+          setConstructs(data); // Update constructs state
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            theory: value,
+            constructs: data.reduce((acc, construct) => {
+              acc[construct.name] = ''; // Initialize all constructs values to empty
+              return acc;
+            }, {}),
+          }));
+        })
+        .catch((error) => {
+          toast({
+            title: 'An error occurred.',
+            description: "Unable to fetch constructs data.",
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          });
+          console.error('There was an error fetching the constructs data:', error);
+        });
+    } else if (constructs.some(construct => construct.name === name)) {
+      // Update constructs values
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        constructs: {
+          ...prevFormData.constructs,
+          [name]: value,
+        },
+      }));
+    } else {
+      // Update form data for the given field
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -100,12 +139,24 @@ const DataCollection = () => {
               placeholder="Select a theory"
             >
               {theories.map((theory) => (
-                <option key={theory.id} value={theory.name}>
+                <option key={theory.id} value={theory.id}>
                   {theory.name}
                 </option>
               ))}
             </Select>
           </FormControl>
+          {constructs.map((construct) => (
+            <FormControl key={construct.id}>
+              <FormLabel htmlFor={construct.name}>{construct.name}</FormLabel>
+              <Input
+                id={construct.name}
+                name={construct.name}
+                value={formData.constructs[construct.name]}
+                onChange={handleChange}
+                placeholder={`Enter ${construct.name}`}
+              />
+            </FormControl>
+          ))}
           <FormControl>
             <FormLabel htmlFor="notes">Additional Notes</FormLabel>
             <Textarea
