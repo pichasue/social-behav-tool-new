@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-const TheoriesGraph = ({ data }) => {
+const TheoriesGraph = ({ theoryId, constructs }) => {
   const d3Container = useRef(null);
 
   useEffect(() => {
-    if (data && d3Container.current) {
+    if (theoryId && constructs && d3Container.current) {
       const svg = d3.select(d3Container.current);
 
       // Clear the previous graph
@@ -24,39 +24,77 @@ const TheoriesGraph = ({ data }) => {
         .append('g')
           .attr('transform', `translate(${margin.left},${margin.top})`);
 
-      // Create scales
-      const x = d3.scaleBand()
-        .range([0, width])
-        .domain(data.map(d => d.theory))
-        .padding(0.1);
+      // Create a simulation for an array of nodes, and compose the desired forces
+      const simulation = d3.forceSimulation(constructs)
+        .force('charge', d3.forceManyBody().strength(-50))
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .force('link', d3.forceLink().id(d => d.id))
+        .on('tick', ticked);
 
-      const y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.value)])
-        .range([height, 0]);
+      // Draw lines for the links between the nodes
+      const link = graph.append('g')
+          .attr('stroke', '#999')
+          .attr('stroke-opacity', 0.6)
+        .selectAll('line')
+        .data(simulation.force('link').links())
+        .enter().append('line')
+          .attr('stroke-width', d => Math.sqrt(d.value));
 
-      // Draw the bars
-      graph.selectAll('.bar')
-        .data(data)
-        .enter()
-        .append('rect')
-          .attr('class', 'bar')
-          .attr('x', d => x(d.theory))
-          .attr('y', d => y(d.value))
-          .attr('width', x.bandwidth())
-          .attr('height', d => height - y(d.value))
-          .attr('fill', '#69b3a2');
+      // Create the node circles
+      const node = graph.append('g')
+          .attr('stroke', '#fff')
+          .attr('stroke-width', 1.5)
+        .selectAll('circle')
+        .data(constructs)
+        .enter().append('circle')
+          .attr('r', 5)
+          .attr('fill', colorByGroup)
+          .call(drag(simulation));
 
-      // Add the X Axis
-      graph.append('g')
-        .attr('transform', `translate(0,${height})`)
-        .call(d3.axisBottom(x));
+      // Define the color for each group
+      function colorByGroup(d) {
+        return d.group === theoryId ? '#ffab00' : '#69b3a2';
+      }
 
-      // Add the Y Axis
-      graph.append('g')
-        .call(d3.axisLeft(y));
+      // Define the drag behavior
+      function drag(simulation) {
+        function dragstarted(event) {
+          if (!event.active) simulation.alphaTarget(0.3).restart();
+          event.subject.fx = event.subject.x;
+          event.subject.fy = event.subject.y;
+        }
+
+        function dragged(event) {
+          event.subject.fx = event.x;
+          event.subject.fy = event.y;
+        }
+
+        function dragended(event) {
+          if (!event.active) simulation.alphaTarget(0);
+          event.subject.fx = null;
+          event.subject.fy = null;
+        }
+
+        return d3.drag()
+          .on('start', dragstarted)
+          .on('drag', dragged)
+          .on('end', dragended);
+      }
+
+      // Update positions each tick of the simulation
+      function ticked() {
+        link
+          .attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y);
+
+        node
+          .attr('cx', d => d.x)
+          .attr('cy', d => d.y);
+      }
     }
-  // Removed d3Container.current from the dependency array to address the linter warning
-  }, [data]);
+  }, [theoryId, constructs, d3Container.current]);
 
   return (
     <div className="d3-component" ref={d3Container} />

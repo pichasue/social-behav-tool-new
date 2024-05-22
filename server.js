@@ -104,6 +104,17 @@ app.post('/api/ai-interaction', async (req, res) => {
     }
 });
 
+// Define a GET endpoint for fetching constructs related to a specific theory
+app.get('/api/theories/:theoryId/constructs', async (req, res) => {
+    try {
+        const { theoryId } = req.params;
+        const result = await pool.query('SELECT * FROM constructs WHERE theory_id = $1', [theoryId]);
+        res.json(result.rows);
+    } catch (error) {
+        console.error(`Error fetching constructs for theory ${req.params.theoryId}:`, error);
+        res.status(500).json({ error: `Error fetching constructs for theory ${req.params.theoryId}` });
+    }
+});
 // Define the port number as 3001
 const PORT = 3001;
 

@@ -59,7 +59,7 @@ const HomePage = () => {
             </ul>
           </Box>
           {/* Render the TheoriesGraph component with the constructs data */}
-          <TheoriesGraph data={constructs.map(construct => ({ theory: construct.name, value: construct.value }))} />
+          <TheoriesGraph theoryId={selectedTheory} constructs={constructs} />
         </>
       )}
     </Box>
