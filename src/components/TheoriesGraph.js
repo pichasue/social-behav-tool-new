@@ -55,7 +55,8 @@ const TheoriesGraph = ({ data }) => {
       graph.append('g')
         .call(d3.axisLeft(y));
     }
-  }, [data, d3Container.current]);
+  // Removed d3Container.current from the dependency array to address the linter warning
+  }, [data]);
 
   return (
     <div className="d3-component" ref={d3Container} />
