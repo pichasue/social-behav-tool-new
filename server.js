@@ -115,8 +115,9 @@ app.get('/api/theories/:theoryId/constructs', async (req, res) => {
         res.status(500).json({ error: `Error fetching constructs for theory ${req.params.theoryId}` });
     }
 });
-// Define the port number as 3001
-const PORT = 3001;
+
+// Define the port number as 3002
+const PORT = 3002;
 
 // Start the server and load the model
 app.listen(PORT, async () => {
