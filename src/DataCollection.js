@@ -98,8 +98,59 @@ const DataCollection = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Submit the form data to the backend or another service
-    console.log(formData); // Logging the form data to the console (for demonstration purposes)
+    // Check if required fields are filled
+    if (!formData.behavior.trim() || !formData.context.trim()) {
+      toast({
+        title: 'Required fields missing',
+        description: 'Please fill out all required fields.',
+        status: 'warning',
+        duration: 9000,
+        isClosable: true,
+      });
+      return; // Prevent form submission
+    }
+    // Define the backend URL
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3002';
+    // Make a POST request to submit the form data
+    fetch(`${backendUrl}/api/data`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      toast({
+        title: 'Success',
+        description: data.message,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+      // Reset form data after successful submission
+      setFormData({
+        behavior: '',
+        context: '',
+        notes: '',
+        theory: '',
+        constructs: {},
+      });
+    })
+    .catch(error => {
+      toast({
+        title: 'Submission error',
+        description: error.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    });
   };
 
   return (
