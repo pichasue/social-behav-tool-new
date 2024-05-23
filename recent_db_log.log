@@ -1,0 +1,10 @@
+2024-05-22 06:47:29 UTC::@:[553]:LOG:  starting PostgreSQL 15.4 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 9.5.0, 64-bit
+2024-05-22 06:47:29 UTC::@:[553]:LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2024-05-22 06:47:29 UTC::@:[553]:LOG:  listening on IPv6 address "::", port 5432
+2024-05-22 06:47:29 UTC::@:[553]:LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2024-05-22 06:47:29 UTC::@:[553]:LOG:  could not open directory "pg_tblspc/16399/PG_15_202209061": No such file or directory
+2024-05-22 06:47:29 UTC::@:[553]:LOG:  Waiting for runtime initialization complete...
+2024-05-22 06:47:30 UTC::@:[589]:LOG:  database system was interrupted; last known up at 2022-12-15 06:09:31 UTC
+2024-05-22 06:47:30 UTC::@:[589]:LOG:  could not open directory "pg_tblspc/16399/PG_15_202209061": No such file or directory
+2024-05-22 06:47:30 UTC::@:[553]:LOG:  In Aurora for PostgreSQL read only hot standby mode. Database system is ready to accept read only connections.
+

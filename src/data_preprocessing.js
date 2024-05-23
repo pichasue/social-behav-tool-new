@@ -7,22 +7,17 @@
  * @returns {Array} - The normalized data as an array.
  */
 function preprocessData(data) {
-  // Normalize the data here. This is a placeholder function and should be
-  // replaced with actual preprocessing logic based on the model's needs.
-  // For example, if the model expects data to be in a certain range, scale
-  // the input data to that range.
-  // As a simple example, we'll assume all input values should be scaled
-  // between 0 and 1. This should be customized based on actual data.
-
+  // Normalize the data here. This function scales numerical values based on the model's expected input range.
   // Assuming 'data' is an array of objects with 'value', 'min', and 'max' properties
   const normalizedData = data.map(item => {
     // Check if 'value', 'min', and 'max' properties exist and are numbers
     if (typeof item.value !== 'number' || typeof item.min !== 'number' || typeof item.max !== 'number') {
       throw new Error('Data object is missing required numeric properties: value, min, and max');
     }
-    // Replace this with actual normalization logic
-    // Example normalization: scale 'value' to be between 0 and 1 based on 'min' and 'max'
-    return (item.value - item.min) / (item.max - item.min);
+    // Normalization logic: scale 'value' to be between 0 and 1 based on 'min' and 'max'
+    const scaledValue = (item.value - item.min) / (item.max - item.min);
+    // Ensure the scaled value is within the 0-1 range
+    return Math.min(Math.max(scaledValue, 0), 1);
   });
 
   // Pad the array with zeros if necessary to ensure it has 10 elements

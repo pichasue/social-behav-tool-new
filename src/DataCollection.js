@@ -12,19 +12,21 @@ import {
   Select,
 } from '@chakra-ui/react';
 
+// DataCollection component for users to input and submit data related to social behavior change
 const DataCollection = () => {
   const [formData, setFormData] = useState({
     behavior: '',
     context: '',
     notes: '',
     theory: '',
+    constructs: {}, // Add a new state to hold constructs values
   });
-  const [theories, setTheories] = useState([]);
+  const [theories, setTheories] = useState([]); // State to store the list of theories
+  const [constructs, setConstructs] = useState([]); // State to store the list of constructs for the selected theory
   const toast = useToast();
 
   useEffect(() => {
-    // Fetching from the production backend server
-    // Update to use environment variable for backend URL
+    // Fetch the list of theories from the backend when the component mounts
     const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
     fetch(`${backendUrl}/api/theories`)
       .then((response) => {
@@ -34,7 +36,7 @@ const DataCollection = () => {
         return response.json();
       })
       .then((data) => {
-        setTheories(data);
+        setTheories(data); // Update state with the fetched theories data
       })
       .catch((error) => {
         toast({
@@ -51,16 +53,104 @@ const DataCollection = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
+    if (name === 'theory') {
+      // Fetch constructs for the selected theory
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/theories/${value}/constructs`)
+        .then((response) => response.json())
+        .then((data) => {
+          setConstructs(data); // Update constructs state
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            theory: value,
+            constructs: data.reduce((acc, construct) => {
+              acc[construct.name] = ''; // Initialize all constructs values to empty
+              return acc;
+            }, {}),
+          }));
+        })
+        .catch((error) => {
+          toast({
+            title: 'An error occurred.',
+            description: "Unable to fetch constructs data.",
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          });
+          console.error('There was an error fetching the constructs data:', error);
+        });
+    } else if (constructs.some(construct => construct.name === name)) {
+      // Update constructs values
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        constructs: {
+          ...prevFormData.constructs,
+          [name]: value,
+        },
+      }));
+    } else {
+      // Update form data for the given field
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would usually send the data to the server or another service
-    console.log(formData);
+    // Check if required fields are filled
+    if (!formData.behavior.trim() || !formData.context.trim()) {
+      toast({
+        title: 'Required fields missing',
+        description: 'Please fill out all required fields.',
+        status: 'warning',
+        duration: 9000,
+        isClosable: true,
+      });
+      return; // Prevent form submission
+    }
+    // Define the backend URL
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3002';
+    // Make a POST request to submit the form data
+    fetch(`${backendUrl}/api/data`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      toast({
+        title: 'Success',
+        description: data.message,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+      // Reset form data after successful submission
+      setFormData({
+        behavior: '',
+        context: '',
+        notes: '',
+        theory: '',
+        constructs: {},
+      });
+    })
+    .catch(error => {
+      toast({
+        title: 'Submission error',
+        description: error.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    });
   };
 
   return (
@@ -100,12 +190,24 @@ const DataCollection = () => {
               placeholder="Select a theory"
             >
               {theories.map((theory) => (
-                <option key={theory.id} value={theory.name}>
+                <option key={theory.id} value={theory.id}>
                   {theory.name}
                 </option>
               ))}
             </Select>
           </FormControl>
+          {constructs.map((construct) => (
+            <FormControl key={construct.id}>
+              <FormLabel htmlFor={construct.name}>{construct.name}</FormLabel>
+              <Input
+                id={construct.name}
+                name={construct.name}
+                value={formData.constructs[construct.name]}
+                onChange={handleChange}
+                placeholder={`Enter ${construct.name}`}
+              />
+            </FormControl>
+          ))}
           <FormControl>
             <FormLabel htmlFor="notes">Additional Notes</FormLabel>
             <Textarea
