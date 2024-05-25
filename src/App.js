@@ -5,6 +5,7 @@ import HomePage from './HomePage';
 import DataCollection from './DataCollection';
 import AnalysisResults from './AnalysisResults';
 import AIInsights from './AIInsights';
+import Theories from './components/Theories';
 
 const theme = extendTheme({
   styles: {
@@ -42,6 +43,7 @@ function App() {
           <Route path="/data-collection" element={<DataCollection />} />
           <Route path="/analysis-results" element={<AnalysisResults />} />
           <Route path="/ai-insights" element={<AIInsights />} />
+          <Route path="/theories" element={<Theories />} />
         </Routes>
       </Router>
     </ChakraProvider>
