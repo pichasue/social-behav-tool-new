@@ -51,17 +51,20 @@ const Theories = () => {
     return <div className="loading">Loading theories...</div>;
   }
 
-  console.log('Rendering Theories component with dropdown'); // Log when rendering the component with dropdown
+  console.log('Rendering Theories component with dropdown and button'); // Log when rendering the component with dropdown and button
 
   return (
     <div className="theories-container">
       <h2 className="theories-header">Theories</h2>
-      <select className="theories-dropdown" onChange={(event) => { console.log('onChange event triggered'); handleTheoryChange(event); }}>
+      <select id="theories-dropdown" className="theories-dropdown" onChange={(event) => { console.log('onChange event triggered'); handleTheoryChange(event); }}>
         <option value="">Select a theory</option>
         {theories.map((theory) => (
           <option key={theory.id} value={theory.id}>{theory.name}</option>
         ))}
       </select>
+      <button onClick={() => handleTheoryChange({ target: { value: theories[0]?.id || '' } })} style={{ display: 'block', marginTop: '10px', zIndex: 1000, backgroundColor: 'yellow', border: '2px solid red' }}>
+        Manually Trigger handleTheoryChange
+      </button>
       <div className="constructs-container">
         {constructs.map((construct, index) => (
           <div key={index} className="construct-item">
