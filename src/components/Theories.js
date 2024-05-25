@@ -29,6 +29,7 @@ const Theories = () => {
   const handleTheoryChange = async (event) => {
     console.log('handleTheoryChange invoked'); // Log function invocation
     console.log('Event object:', event); // Log event object
+    console.log('Selected theory value:', event.target.value); // Log selected theory value
     console.log('Theories state:', theories); // Log theories state
     const selectedTheoryId = parseInt(event.target.value, 10); // Ensure the theory ID is an integer
     console.log('Selected theory ID:', selectedTheoryId); // Log selected theory ID
