@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { fetchTheories } from '../mockApi';
 import './Theories.css'; // Import the CSS file for styling
 
 const Theories = () => {
@@ -7,10 +6,11 @@ const Theories = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch theories from the mock API
+    // Fetch theories from the backend API
     const fetchTheoriesData = async () => {
       try {
-        const data = await fetchTheories();
+        const response = await fetch('http://localhost:3001/api/theories');
+        const data = await response.json();
         console.log('Fetched theories:', data); // Log fetched data
         setTheories(data);
       } catch (error) {
