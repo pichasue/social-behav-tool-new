@@ -6,6 +6,8 @@ const Theories = () => {
   const [constructs, setConstructs] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  console.log('Theories component rendered'); // Log when the component is rendered
+
   useEffect(() => {
     // Fetch theories from the backend API
     const fetchTheoriesData = async () => {
