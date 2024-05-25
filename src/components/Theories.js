@@ -54,7 +54,7 @@ const Theories = () => {
   return (
     <div className="theories-container">
       <h2 className="theories-header">Theories</h2>
-      <select className="theories-dropdown" onChange={handleTheoryChange}>
+      <select className="theories-dropdown" onChange={(event) => { console.log('onChange event triggered'); handleTheoryChange(event); }}>
         <option value="">Select a theory</option>
         {theories.map((theory) => (
           <option key={theory.id} value={theory.id}>{theory.name}</option>
