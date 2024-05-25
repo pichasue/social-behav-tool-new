@@ -51,6 +51,8 @@ const Theories = () => {
     return <div className="loading">Loading theories...</div>;
   }
 
+  console.log('Rendering Theories component with dropdown'); // Log when rendering the component with dropdown
+
   return (
     <div className="theories-container">
       <h2 className="theories-header">Theories</h2>
