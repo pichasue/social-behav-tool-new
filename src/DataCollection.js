@@ -139,6 +139,20 @@ const DataCollection = () => {
               placeholder="Any additional information"
             />
           </FormControl>
+          <FormControl>
+            <FormLabel htmlFor="constructs">Constructs</FormLabel>
+            <Select
+              id="constructs"
+              name="constructs"
+              placeholder="Select a construct"
+            >
+              {constructs.map((construct) => (
+                <option key={construct.id} value={construct.id}>
+                  {construct.name}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
           <Button type="submit" colorScheme="blue">
             Submit Data
           </Button>
