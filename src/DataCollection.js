@@ -20,6 +20,7 @@ const DataCollection = () => {
     theory: '',
   });
   const [theories, setTheories] = useState([]);
+  const [constructs, setConstructs] = useState([]);
   const toast = useToast();
 
   useEffect(() => {
@@ -49,12 +50,34 @@ const DataCollection = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }));
+
+    if (name === 'theory') {
+      const selectedTheoryId = parseInt(value, 10);
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
+      try {
+        const fetchUrl = `${backendUrl}/api/constructs?theory=${selectedTheoryId}`;
+        console.log('Fetch URL:', fetchUrl); // Log the fetch URL
+        const response = await fetch(fetchUrl);
+        const data = await response.json();
+        console.log('Fetched constructs:', data); // Log the fetched constructs
+        setConstructs(data);
+      } catch (error) {
+        console.error('Error fetching constructs:', error);
+        toast({
+          title: 'An error occurred.',
+          description: "Unable to fetch constructs data.",
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    }
   };
 
   const handleSubmit = (e) => {
@@ -100,7 +123,7 @@ const DataCollection = () => {
               placeholder="Select a theory"
             >
               {theories.map((theory) => (
-                <option key={theory.id} value={theory.name}>
+                <option key={theory.id} value={theory.id}>
                   {theory.name}
                 </option>
               ))}
