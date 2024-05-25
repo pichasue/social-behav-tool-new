@@ -9,7 +9,7 @@ const Theories = () => {
     // Fetch theories from the backend API
     const fetchTheoriesData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/theories');
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/theories`);
         const data = await response.json();
         console.log('Fetched theories:', data); // Log fetched data
         setTheories(data);
@@ -30,11 +30,11 @@ const Theories = () => {
   return (
     <div className="theories-container">
       <h2 className="theories-header">Theories</h2>
-      <ul className="theories-list">
+      <select className="theories-dropdown">
         {theories.map((theory, index) => (
-          <li key={index} className="theory-item">{theory.name}</li>
+          <option key={index} value={theory.name}>{theory.name}</option>
         ))}
-      </ul>
+      </select>
     </div>
   );
 };
