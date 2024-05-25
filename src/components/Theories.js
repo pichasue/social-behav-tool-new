@@ -30,7 +30,9 @@ const Theories = () => {
 
     // Fetch constructs associated with the selected theory
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/constructs?theory_id=${selectedTheoryId}`);
+      const fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/api/constructs?theory=${selectedTheoryId}`;
+      console.log('Fetch URL:', fetchUrl); // Log the fetch URL
+      const response = await fetch(fetchUrl);
       const data = await response.json();
       console.log('Fetched constructs:', data); // Log fetched constructs
       setConstructs(data);
