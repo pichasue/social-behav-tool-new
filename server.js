@@ -57,6 +57,22 @@ app.get('/api/theories', async (req, res) => {
     }
 });
 
+// Define a GET endpoint for fetching constructs associated with a theory
+app.get('/api/constructs', async (req, res) => {
+    const theory = req.query.theory;
+    if (!theory) {
+        return res.status(400).json({ error: 'Theory query parameter is required' });
+    }
+
+    try {
+        const result = await pool.query('SELECT * FROM constructs WHERE theory_id = $1', [theory]);
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error fetching constructs:', error);
+        res.status(500).json({ error: 'Error fetching constructs' });
+    }
+});
+
 // Define a GET endpoint for fetching processed tweets
 app.get('/api/processed-tweets', async (req, res) => {
     try {
