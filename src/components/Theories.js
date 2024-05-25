@@ -3,6 +3,7 @@ import './Theories.css'; // Import the CSS file for styling
 
 const Theories = () => {
   const [theories, setTheories] = useState([]);
+  const [constructs, setConstructs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,6 +24,21 @@ const Theories = () => {
     fetchTheoriesData();
   }, []);
 
+  const handleTheoryChange = async (event) => {
+    const selectedTheoryId = parseInt(event.target.value, 10); // Ensure the theory ID is an integer
+    console.log('Selected theory ID:', selectedTheoryId); // Log selected theory ID
+
+    // Fetch constructs associated with the selected theory
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/constructs?theory_id=${selectedTheoryId}`);
+      const data = await response.json();
+      console.log('Fetched constructs:', data); // Log fetched constructs
+      setConstructs(data);
+    } catch (error) {
+      console.error('Error fetching constructs:', error);
+    }
+  };
+
   if (loading) {
     return <div className="loading">Loading theories...</div>;
   }
@@ -30,11 +46,20 @@ const Theories = () => {
   return (
     <div className="theories-container">
       <h2 className="theories-header">Theories</h2>
-      <select className="theories-dropdown">
-        {theories.map((theory, index) => (
-          <option key={index} value={theory.name}>{theory.name}</option>
+      <select className="theories-dropdown" onChange={handleTheoryChange}>
+        <option value="">Select a theory</option>
+        {theories.map((theory) => (
+          <option key={theory.id} value={theory.id}>{theory.name}</option>
         ))}
       </select>
+      <div className="constructs-container">
+        {constructs.map((construct, index) => (
+          <div key={index} className="construct-item">
+            <h3>{construct.name}</h3>
+            <p>{construct.description}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
