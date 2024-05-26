@@ -10,6 +10,8 @@ const Theories = () => {
 
   useEffect(() => {
     console.log('useEffect hook called'); // Log when useEffect is called
+    console.log('REACT_APP_BACKEND_URL:', process.env.REACT_APP_BACKEND_URL); // Log the backend URL
+
     // Fetch theories from the backend API
     const fetchTheoriesData = async () => {
       try {
