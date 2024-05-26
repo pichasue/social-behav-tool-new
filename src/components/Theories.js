@@ -9,6 +9,7 @@ const Theories = () => {
   console.log('Theories component rendered'); // Log when the component is rendered
 
   useEffect(() => {
+    console.log('useEffect hook called'); // Log when useEffect is called
     // Fetch theories from the backend API
     const fetchTheoriesData = async () => {
       try {
