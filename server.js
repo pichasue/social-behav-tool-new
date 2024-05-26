@@ -50,7 +50,11 @@ app.get('/api/constructs', async (req, res) => {
     }
 
     try {
-        const result = await pool.query('SELECT * FROM constructs WHERE theory_id = $1', [theory]);
+        const theoryId = parseInt(theory, 10); // Parse the theory query parameter as an integer
+        if (isNaN(theoryId)) {
+            return res.status(400).json({ error: 'Invalid theory query parameter' });
+        }
+        const result = await pool.query('SELECT * FROM constructs WHERE theory_id = $1', [theoryId]);
         res.json(result.rows);
     } catch (error) {
         console.error('Error fetching constructs:', error);

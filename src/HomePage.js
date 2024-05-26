@@ -18,6 +18,12 @@ const HomePage = () => {
     setSelectedTheory(event.target.value);
     const selectedTheoryId = parseInt(event.target.value, 10);
 
+    // Ensure the selectedTheoryId is a valid number before making the fetch call
+    if (isNaN(selectedTheoryId)) {
+      console.error('Error: Selected theory ID is not a valid number');
+      return;
+    }
+
     // Fetch constructs associated with the selected theory
     try {
       const fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/api/constructs?theory=${selectedTheoryId}`;
@@ -56,7 +62,7 @@ const HomePage = () => {
           <Text fontSize="lg" fontWeight="semibold">Constructs:</Text>
           <ul>
             {constructs.map(construct => (
-              <li key={construct}>{construct}</li>
+              <li key={construct.id}>{construct.name}: {construct.description}</li>
             ))}
           </ul>
         </Box>
