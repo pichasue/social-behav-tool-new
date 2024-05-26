@@ -23,7 +23,13 @@ const HomePage = () => {
       const fetchUrl = `${process.env.REACT_APP_BACKEND_URL}/api/constructs?theory=${selectedTheoryId}`;
       const response = await fetch(fetchUrl);
       const data = await response.json();
-      setConstructs(data);
+      // Ensure the data is an array before setting it to constructs
+      if (Array.isArray(data)) {
+        setConstructs(data);
+      } else {
+        setConstructs([]);
+        console.error('Error: Constructs data is not an array');
+      }
     } catch (error) {
       console.error('Error fetching constructs:', error);
     }
