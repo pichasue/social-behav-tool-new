@@ -31,10 +31,13 @@ async function logTheoriesTable() {
 // Define a GET endpoint for fetching theories
 app.get('/api/theories', async (req, res) => {
     try {
+        console.log('Received request to /api/theories');
         const result = await pool.query('SELECT * FROM theories');
+        console.log('Fetched theories:', result.rows);
         res.json(result.rows);
     } catch (error) {
         console.error('Error fetching theories:', error);
+        console.error('Error details:', error.message, error.stack);
         res.status(500).json({ error: 'Error fetching theories' });
     }
 });
