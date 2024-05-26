@@ -7,6 +7,9 @@ const HomePage = () => {
   const [constructs, setConstructs] = useState([]);
 
   useEffect(() => {
+    // Log the backend URL to ensure it is set correctly
+    console.log('Backend URL:', process.env.REACT_APP_BACKEND_URL);
+
     // Fetch the list of theories from the backend
     fetch(`${process.env.REACT_APP_BACKEND_URL}/api/theories`)
       .then(response => response.json())
