@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/social_behavior_tool/static/css/main.c97912f4.css",
+    "main.js": "/social_behavior_tool/static/js/main.13527b39.js",
+    "index.html": "/social_behavior_tool/index.html",
+    "main.c97912f4.css.map": "/social_behavior_tool/static/css/main.c97912f4.css.map",
+    "main.13527b39.js.map": "/social_behavior_tool/static/js/main.13527b39.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c97912f4.css",
+    "static/js/main.13527b39.js"
+  ]
+}
